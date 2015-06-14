@@ -15,7 +15,7 @@ public class CCW_CengageTemplate {
 		fdriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
 		String uname="";
-		String pass= "A123456";
+		String pass= "";
 		
 		fdriver.findElementById("emailId").sendKeys(uname);
 
