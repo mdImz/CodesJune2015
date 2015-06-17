@@ -26,7 +26,7 @@ public class CSFI2_1 {
 
 		//Or second way of writing the input is below
 		/*WebElement uid = fdriver.findElementByName("email");
-		uid.sendKeys("");*/
+		uid.sendKeys("the mail id");*/
 
 		//Now entering the password.
 		WebElement pwd=fdriver.findElementById("password");
@@ -58,7 +58,7 @@ public class CSFI2_1 {
 		nextWindow(adamsT,fdriver);
 	}
 
-	//Method to work inside CNOW application.
+	//Method to work inside application.
 	public static void nextWindow(boolean institute, ChromeDriver fdriver)
 	{
 		String winHandleBefore=fdriver.getWindowHandle();
@@ -74,6 +74,7 @@ public class CSFI2_1 {
 		  System.out.println(url);
 		  
 		  courseCreation(fdriver);
+		  
 		 }
 
 		 //Method for course creation
@@ -90,10 +91,8 @@ public class CSFI2_1 {
 			  //Above code is transitive to following one liner.
 			  Select textBook=new Select(fdriver.findElementById("bookSelector"));
 			  
-//			  String btitle="Warren/Reeve/Duchac: Accounting, 24th Edition";
-//			  
-//			  textBook.selectByVisibleText(btitle);
-			  String coursenm = "CSFICourse10";
+//			  Course name putting in string
+			  String coursenm = "CSFICourse15";
 			  
 			  
 			  fdriver.findElementById("name").sendKeys(coursenm);
@@ -101,7 +100,7 @@ public class CSFI2_1 {
 			  //fdriver.findElementByClassName("ui-state-default ui-state-highlight");	//Example of how compound class name is not permitted.	
 			  fdriver.findElementByLinkText("12").click();
 			  fdriver.findElementByXPath("//button[contains(text(),'Done')]").click();
-			  
+			  fdriver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
 			  fdriver.findElementById("endDateTimeFormat").click();
 			  //, mnth=12;
 //			  int year=2016;
@@ -135,6 +134,7 @@ public class CSFI2_1 {
 			  
 // Now navigating to Assignments tab to create a CSFI 2.1 assignment 
 			  Assign_nav(fdriver);
+			  CSFI21acw1(fdriver);
 		}
 		 
 		 //method to navigate to Assignments tab
@@ -143,11 +143,26 @@ public class CSFI2_1 {
 			 fdriver.findElementByLinkText("Assignments").click();
 		 }
 		 
-		 //method to creted CSFI 2.1 assignment using first flow.
-		 public static void CSFI21acw1()
+		 //method to create CSFI 2.1 assignment using first flow.
+		 public static void CSFI21acw1(ChromeDriver fdriver)
 		 {
+			 fdriver.findElementByLinkText("Create Assignment").click();
+			 fdriver.findElementById("ID_CXP_COMPLIANT_ACTIVITY_CSFI").click();
+			 fdriver.findElementById("createCourseNextStepButton").click();
+			 fdriver.findElementById("select_695819032").click();
+			 fdriver.findElementById("dueDateFormat_695819032").click();
+//			 fdriver.findElementsByClassName("ui-icon ui-icon-circle-triangle-e").contains("Next");
+			 fdriver.findElementByXPath("//span[@class='ui-icon ui-icon-circle-triangle-e']").click();
+			 fdriver.findElementById("createCourseNextStepButton").click();
 			 
+			 //I am not able to print assignment name here.
+//			 String assnm1=fdriver.findElementByXPath("//form[@name='assignmentSummaryForm]//h2[text()='ASSIGNMENT CREATED:']").getText();
+			 
+//			System.out.println("The "+assnm1);
+			 
+			 
+			
 		 }
-		  
+		 
 }
 	
