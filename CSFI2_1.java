@@ -14,8 +14,8 @@ public class CSFI2_1 {
 		System.setProperty("webdriver.chrome.driver","C:/workspace/SeleniumPractice/external exe/chromedriver.exe");
 
 		ChromeDriver fdriver= new ChromeDriver();
-		String uname="";
-		String pass= "";
+		String uname=
+		String pass= 
 
 
 
@@ -56,9 +56,12 @@ public class CSFI2_1 {
 		System.out.println(currenturl);
 
 		nextWindow(adamsT,fdriver);
+
+		//		To close the first opened window
+		//		fdriver.close();
 	}
 
-	//Method to work inside application.
+	//Method to work inside CNOW application.
 	public static void nextWindow(boolean institute, ChromeDriver fdriver)
 	{
 		String winHandleBefore=fdriver.getWindowHandle();
@@ -67,102 +70,226 @@ public class CSFI2_1 {
 		{
 			fdriver.switchTo().window(winHandle);
 		}
+
+
+
+		String url=fdriver.getCurrentUrl();
+		System.out.println(url);
+
+		courseCreation(fdriver);
+		
+		fdriver.switchTo().window(winHandleBefore);
+		
+		System.out.println("now i can close the browser");
+		fdriver.close();
+		
+		System.out.println("All Assignments created and browser closed");
+
+	}
+
+	//Method for course creation
+	public static void courseCreation(ChromeDriver fdriver)
+	{
+		fdriver.findElementByLinkText("Courses").click();
+		fdriver.findElementByLinkText("Create a New Course").click();
+		fdriver.findElementByXPath("//label[contains(text(),'Build a Course Manually')]").click();
+		fdriver.findElementById("createCourseNextStepButton").click();
+		fdriver.findElementById("bookSelector").click();
+
+		fdriver.findElementByXPath("//option[contains(text(),'Staley: FOCUS on College Success, 4th Edition')]").click();
+
+		//Above code is transitive to following one liner.
+		Select textBook=new Select(fdriver.findElementById("bookSelector"));
+
+		//			  Course name putting in string
+		String coursenm = "CSFICourse19";
+
+		fdriver.findElementById("name").sendKeys(coursenm);
+		fdriver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		fdriver.findElementById("startDateTimeFormat").click();
+		//fdriver.findElementByClassName("ui-state-default ui-state-highlight");	//Example of how compound class name is not permitted.	
+		fdriver.findElementByLinkText("12").click();
+		fdriver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		fdriver.findElementByXPath("//button[contains(text(),'Done')]").click();
+		fdriver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		fdriver.findElementById("endDateTimeFormat").click();
+		//, mnth=12;
+		//			  int year=2016;
+
+		WebElement yd=fdriver.findElementByXPath("//select[@class='ui-datepicker-year']");
+		Select yeardrop= new Select(yd);
+		yeardrop.selectByVisibleText("2016");
+		fdriver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		fdriver.findElementByLinkText("12").click();
+		fdriver.findElementByXPath("//button[contains(text(),'Done')]").click();
+
+		//			  Sometimes the date picker doesn't work as the date element doesn't get enabled in time 115ms
+
+		//			  Clicking on Create course button and course creation.
+		fdriver.findElementByLinkText("Create Course").click();
+
+		//			  Extracting information at Course Created page.
+		String ekey = fdriver.findElementByXPath("//a[contains(text(),'E-')]").getText();
+
+		//			  String ekey = fdriver.findElementByXPath("//div[@class='pageContentBody']//strong[contains(text(),'E-')]").getText();
+		System.out.println("Course is created and Details are as follows");
+		System.out.println("Course Name: "+coursenm+" and key is: "+ekey);
+
+
+		//			  Attempt to extract only course key from the ekey URL. Unsuccessful. Created course click seizes.
+		//			  String rkey=ekey.concat("E");
+		//			  System.out.println(rkey);
+		////			  String key=ekey.substring(40, 55);
+		//			  System.out.println(key);
+		//		 }
+
+		// Now navigating to Assignments tab to create a CSFI 2.1 assignment 
+		Assign_nav(fdriver);
+		CSFI21acw1(fdriver); // Creates a csfi 2.1 assignment with 70 days for post test
+		
+		Assign_nav(fdriver);
+        CSFI21acw2(fdriver); // Creates a csfi 2.1 assignment with 0 days for post test
+
+        Assign_nav(fdriver);
+        CSFI21acw3(fdriver); // Creates a csfi 2.1 assignment with Post Test Excluded
+
+       
+		
+		
+		//			  After a course creation, it closes the browser.
+		fdriver.close();
+	}
+
+	//method to navigate to Assignments tab
+	public static void Assign_nav(ChromeDriver fdriver)
+	{
+		fdriver.findElementByLinkText("Assignments").click();
+	}
+
+	//method to create CSFI 2.1 assignment using first flow.
+	public static void CSFI21acw1(ChromeDriver fdriver)
+	{
+		fdriver.findElementByLinkText("Create Assignment").click();
+		fdriver.findElementById("ID_CXP_COMPLIANT_ACTIVITY_CSFI").click();
+		fdriver.findElementById("createCourseNextStepButton").click();
+		fdriver.findElementById("select_695819032").click();
+		fdriver.findElementById("dueDateFormat_695819032").click();
+		//			 fdriver.findElementsByClassName("ui-icon ui-icon-circle-triangle-e").contains("Next");
+		fdriver.findElementByXPath("//span[@class='ui-icon ui-icon-circle-triangle-e']").click();
+		fdriver.findElementById("createCourseNextStepButton").click();
+
+		//I am not able to print assignment name here.
+		//			 String assnm1=fdriver.findElementByXPath("//form[@name='assignmentSummaryForm]//h2[text()='ASSIGNMENT CREATED:']").getText();
+
+		//	57098932		System.out.println("The "+assnm1);
+	}
+
+
 	
+	//method to creted CSFI 2.1 assignment using first flow.
+
+	public static void CSFI21acw2(ChromeDriver fdriver)
+	{
+		fdriver.findElementByLinkText("Create Assignment").click();
+		fdriver.findElementById("ID_CXP_COMPLIANT_ACTIVITY_CSFI").click();
+		fdriver.findElementById("createCourseNextStepButton").click();
+		fdriver.findElementById("select_695819032").click();
+		fdriver.findElementById("dueDateFormat_695819032").click();
+		// fdriver.findElementsByClassName("ui-icon ui-icon-circle-triangle-e").contains("Next");
+
+		fdriver.findElementByXPath("//span[@class='ui-icon ui-icon-circle-triangle-e']").click();
+		fdriver.findElementById("createCourseNextStepButton").click();
 
 
-		  String url=fdriver.getCurrentUrl();
-		  System.out.println(url);
-		  
-		  courseCreation(fdriver);
-		  
-		 }
+		//I am not able to print assignment name here.
+		//String assnm1=fdriver.findElementByXPath("//form[@name='assignmentSummaryForm]//h2[text()='ASSIGNMENT CREATED:']").getText();
+		//System.out.println("The "+assnm1);
 
-		 //Method for course creation
-		 public static void courseCreation(ChromeDriver fdriver)
-		 {
-			  fdriver.findElementByLinkText("Courses").click();
-			  fdriver.findElementByLinkText("Create a New Course").click();
-			  fdriver.findElementByXPath("//label[contains(text(),'Build a Course Manually')]").click();
-			  fdriver.findElementById("createCourseNextStepButton").click();
-			  fdriver.findElementById("bookSelector").click();
-			  
-			  fdriver.findElementByXPath("//option[contains(text(),'Staley: FOCUS on College Success, 4th Edition')]").click();
-			  
-			  //Above code is transitive to following one liner.
-			  Select textBook=new Select(fdriver.findElementById("bookSelector"));
-			  
-//			  Course name putting in string
-			  String coursenm = "CSFICourse15";
-			  
-			  
-			  fdriver.findElementById("name").sendKeys(coursenm);
-			  fdriver.findElementById("startDateTimeFormat").click();
-			  //fdriver.findElementByClassName("ui-state-default ui-state-highlight");	//Example of how compound class name is not permitted.	
-			  fdriver.findElementByLinkText("12").click();
-			  fdriver.findElementByXPath("//button[contains(text(),'Done')]").click();
-			  fdriver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
-			  fdriver.findElementById("endDateTimeFormat").click();
-			  //, mnth=12;
-//			  int year=2016;
-			  
-			  WebElement yd=fdriver.findElementByXPath("//select[@class='ui-datepicker-year']");
-			  Select yeardrop= new Select(yd);
-			  yeardrop.selectByVisibleText("2016");
-			  
-			  fdriver.findElementByLinkText("12").click();
-			  fdriver.findElementByXPath("//button[contains(text(),'Done')]").click();
+		//Now working on Assignment Options page.
 
-//			  Sometimes the date picker doesn't work as the date element doesn't get enabled in time 115ms
-			  
-//			  Clicking on Create course button and course creation.
-			  fdriver.findElementByLinkText("Create Course").click();
-			  
-//			  Extracting information at Course Created page.
-			  String ekey = fdriver.findElementByXPath("//a[contains(text(),'E-')]").getText();
-			  
-//			  String ekey = fdriver.findElementByXPath("//div[@class='pageContentBody']//strong[contains(text(),'E-')]").getText();
-			  System.out.println("Course is created and Details are as follows");
-			  System.out.println("Course Name: "+coursenm+" and key is: "+ekey);
+		fdriver.findElementByLinkText("Edit Assignment Options").click();
+		fdriver.findElementByXPath("//input[@name='daysUntilPostTest']").clear();
+		String daysToSet="0";
 
-			  
-//			  Attempt to extract only course key from the ekey URL. Unsuccessful. Created course click seizes.
-			  //			  String rkey=ekey.concat("E");
-//			  System.out.println(rkey);
-////			  String key=ekey.substring(40, 55);
-//			  System.out.println(key);
-//		 }
-			  
-// Now navigating to Assignments tab to create a CSFI 2.1 assignment 
-			  Assign_nav(fdriver);
-			  CSFI21acw1(fdriver);
-		}
-		 
-		 //method to navigate to Assignments tab
-		 public static void Assign_nav(ChromeDriver fdriver)
-		 {
-			 fdriver.findElementByLinkText("Assignments").click();
-		 }
-		 
-		 //method to create CSFI 2.1 assignment using first flow.
-		 public static void CSFI21acw1(ChromeDriver fdriver)
-		 {
-			 fdriver.findElementByLinkText("Create Assignment").click();
-			 fdriver.findElementById("ID_CXP_COMPLIANT_ACTIVITY_CSFI").click();
-			 fdriver.findElementById("createCourseNextStepButton").click();
-			 fdriver.findElementById("select_695819032").click();
-			 fdriver.findElementById("dueDateFormat_695819032").click();
-//			 fdriver.findElementsByClassName("ui-icon ui-icon-circle-triangle-e").contains("Next");
-			 fdriver.findElementByXPath("//span[@class='ui-icon ui-icon-circle-triangle-e']").click();
-			 fdriver.findElementById("createCourseNextStepButton").click();
-			 
-			 //I am not able to print assignment name here.
-//			 String assnm1=fdriver.findElementByXPath("//form[@name='assignmentSummaryForm]//h2[text()='ASSIGNMENT CREATED:']").getText();
-			 
-//			System.out.println("The "+assnm1);
-			 
-			 
-			
-		 }
-		 
+		fdriver.findElementByXPath("//input[@name='daysUntilPostTest']").sendKeys(daysToSet);
+		fdriver.findElementById("createCourseNextStepButton").click();
+		fdriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		//Frame handeling of Option set change.
+		fdriver.switchTo().activeElement();
+		Boolean popup= fdriver.findElementByXPath("//span[contains(text(),'Save Changes to the')]").isDisplayed();
+		System.out.println(popup);
+		fdriver.findElementByXPath("//button[@title='Continue']").click();
+	}
+
+	// Creates a csfi 2.1 assignment with Post Test Excluded     
+
+	public static void CSFI21acw3(ChromeDriver fdriver)
+	{
+
+		fdriver.findElementByLinkText("Create Assignment").click();
+
+		fdriver.findElementById("ID_CXP_COMPLIANT_ACTIVITY_CSFI").click();
+
+		fdriver.findElementById("createCourseNextStepButton").click();
+
+		fdriver.findElementById("select_695819032").click();
+
+		fdriver.findElementById("dueDateFormat_695819032").click();
+
+		//                   fdriver.findElementsByClassName("ui-icon ui-icon-circle-triangle-e").contains("Next");
+
+		fdriver.findElementByXPath("//span[@class='ui-icon ui-icon-circle-triangle-e']").click();
+
+		fdriver.findElementById("createCourseNextStepButton").click();
+
+
+
+		//I am not able to print assignment name here.
+
+		//                   String assnm1=fdriver.findElementByXPath("//form[@name='assignmentSummaryForm]//h2[text()='ASSIGNMENT CREATED:']").getText();
+
+
+
+		//                   System.out.println("The "+assnm1);
+
+
+
+		//Now working on Assignment Options page.
+
+		fdriver.findElementByLinkText("Edit Assignment Options").click();
+
+
+
+		fdriver.findElementByXPath("//input[@name='excludePostTest' and @value='true']").click();
+
+
+
+		fdriver.findElementById("createCourseNextStepButton").click();
+
+
+
+		fdriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+		//Frame handeling of Option set change.
+
+
+
+		fdriver.switchTo().activeElement();
+
+
+
+		Boolean popup= fdriver.findElementByXPath("//span[contains(text(),'Save Changes to the')]").isDisplayed();
+
+		System.out.println(popup);
+
+
+
+		fdriver.findElementByXPath("//button[@title='Continue']").click();
+
+	}
+
+
+
 }
-	
+
